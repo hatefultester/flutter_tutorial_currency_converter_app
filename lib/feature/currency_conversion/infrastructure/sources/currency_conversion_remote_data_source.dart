@@ -1,0 +1,4 @@
+import 'package:flutter_tutorial_currency_converter_app/feature/currency_conversion/domain/sources/i_currency_conversion_remote_data_source.dart';
+
+final class CurrencyConversionRemoteDataSource
+    implements ICurrencyConversionRemoteDataSource {}
