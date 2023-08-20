@@ -1,0 +1,4 @@
+enum Endpoint {
+  GET_ALL_CURRENCIES,
+  GET_CONVERSION_RATES;
+}

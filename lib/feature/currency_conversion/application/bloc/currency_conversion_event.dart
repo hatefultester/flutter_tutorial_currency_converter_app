@@ -14,7 +14,7 @@ final class AddCurrencyEvent extends CurrencyConversionEvent {
 final class ChangeBaseCurrencyEvent extends CurrencyConversionEvent {
   const ChangeBaseCurrencyEvent(this.currency);
 
-  final Currency currency;
+  final CurrencyEntity currency;
 
   @override
   List<Object?> get props => [currency];
@@ -24,7 +24,7 @@ final class ChangeCurrencyEvent extends CurrencyConversionEvent {
   const ChangeCurrencyEvent(this.index, this.currency);
 
   final int index;
-  final Currency currency;
+  final CurrencyEntity currency;
 
   @override
   List<Object?> get props => [currency, index];
@@ -47,6 +47,6 @@ final class TryAgainEvent extends CurrencyConversionEvent {
   const TryAgainEvent();
 }
 
-final class SetupEvent extends CurrencyConversionEvent {
-  const SetupEvent();
+final class SetUpEvent extends CurrencyConversionEvent {
+  const SetUpEvent();
 }

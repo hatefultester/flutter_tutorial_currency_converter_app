@@ -10,8 +10,15 @@ class CurrencyConverterApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: CurrencyConversionPage(),
+    return MaterialApp(
+      theme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: Colors.green, brightness: Brightness.dark),),
+      darkTheme: ThemeData.dark().copyWith(
+        colorScheme: ColorScheme.fromSeed(
+            seedColor: Colors.green, brightness: Brightness.dark),),
+      themeMode: ThemeMode.dark,
+      home: const CurrencyConversionPage(),
     );
   }
 }

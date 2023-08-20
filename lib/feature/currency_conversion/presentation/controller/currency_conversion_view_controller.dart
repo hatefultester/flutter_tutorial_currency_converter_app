@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import '../../domain/entities/currency.dart';
+import '../../domain/entities/currency_entity.dart';
 import '../../application/bloc/currency_conversion_bloc.dart';
 
 import '../views/currency_conversion_error_view.dart';
@@ -15,17 +15,20 @@ class CurrencyConversionViewController extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<CurrencyConversionBloc, CurrencyConversionState>(
-      bloc: bloc..add(const SetupEvent()),
+      bloc: bloc..add(const SetUpEvent()),
+      buildWhen: (previousState, currentState) {
+        return previousState.props != currentState.props;
+      },
       builder: (context, state) => switch (state) {
         SuccessCurrencyConversionState state => CurrencyConversionSuccessView(
             state: state,
             onAddCurrency: () => bloc.add(
               const AddCurrencyEvent(),
             ),
-            onChangeBaseCurrency: (Currency currency) => bloc.add(
+            onChangeBaseCurrency: (CurrencyEntity currency) => bloc.add(
               ChangeBaseCurrencyEvent(currency),
             ),
-            onChangeCurrency: (int index, Currency currency) => bloc.add(
+            onChangeCurrency: (int index, CurrencyEntity currency) => bloc.add(
               ChangeCurrencyEvent(index, currency),
             ),
             onRemoveCurrency: (int index) => bloc.add(
@@ -43,7 +46,13 @@ class CurrencyConversionViewController extends StatelessWidget {
           ),
         _ => const CurrencyConversionLoadingView(),
       },
-      listener: (BuildContext context, CurrencyConversionState state) {},
+      listenWhen: (previous, current) {
+        return previous is SuccessCurrencyConversionState &&
+            current is SuccessCurrencyConversionState;
+      },
+      listener: (BuildContext context, CurrencyConversionState state) {
+
+      },
     );
   }
 }

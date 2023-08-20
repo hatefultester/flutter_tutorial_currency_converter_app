@@ -4,7 +4,7 @@ sealed class CurrencyConversionState extends Equatable {
   const CurrencyConversionState();
 
   @override
-  List<Object?> get props => [];
+  List<Object?> get props => [runtimeType];
 }
 
 final class InitCurrencyConversionState extends CurrencyConversionState {
@@ -16,21 +16,72 @@ final class LoadingCurrencyConversionState extends CurrencyConversionState {
 }
 
 final class SuccessCurrencyConversionState extends CurrencyConversionState {
-  const SuccessCurrencyConversionState(this.currency, this.currencies, this.conversions);
+  const SuccessCurrencyConversionState({
+    required this.currency,
+    required this.currencies,
+    required this.availableCurrencies,
+    required this.conversions,
+    required this.validationMessage,
+    required this.snackBarMessage,
+    required this.showLoadingOverlay,
+  });
 
-  final Currency currency;
+  final CurrencyEntity currency;
 
-  final List<Currency> currencies;
+  final List<CurrencyEntity> currencies;
 
-  final Map<Currency, double>? conversions;
+  final List<CurrencyEntity> availableCurrencies;
 
+  final Map<CurrencyEntity, double>? conversions;
 
+  final String? snackBarMessage;
 
+  final String? validationMessage;
+
+  final bool showLoadingOverlay;
+
+  SuccessCurrencyConversionState copyWith({
+    CurrencyEntity? currency,
+    List<CurrencyEntity>? currencies,
+    List<CurrencyEntity>? availableCurrencies,
+    Map<CurrencyEntity, double>? conversions,
+    String? validationMessage,
+    String? snackBarMessage,
+    bool? showLoadingOverlay,
+  }) =>
+      SuccessCurrencyConversionState(
+        showLoadingOverlay: showLoadingOverlay ?? false,
+        snackBarMessage: snackBarMessage,
+        validationMessage: validationMessage,
+        conversions: conversions ?? this.conversions,
+        currency: currency ?? this.currency,
+        currencies: currencies ?? this.currencies,
+        availableCurrencies: availableCurrencies ?? this.availableCurrencies,
+      );
+
+  factory SuccessCurrencyConversionState.fromCurrencies(
+      {required List<CurrencyEntity> availableCurrencies}) {
+    assert(availableCurrencies.isNotEmpty, "availableCurrencies can't be empty!");
+    return SuccessCurrencyConversionState(
+      currencies: const [],
+      availableCurrencies: availableCurrencies,
+      currency: availableCurrencies.first,
+      showLoadingOverlay: false,
+      conversions: null,
+      snackBarMessage: null,
+      validationMessage: null,
+    );
+  }
 
   @override
-  List<Object?> get props => [currency, currencies, conversions];
+  List<Object?> get props => [currency, currencies, conversions, availableCurrencies];
 }
 
 final class ErrorCurrencyConversionState extends CurrencyConversionState {
-  const ErrorCurrencyConversionState();
+  const ErrorCurrencyConversionState(this.message);
+
+  final String message;
+
+  @override
+  List<Object?> get props => [message];
 }
